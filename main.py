@@ -9,16 +9,17 @@ form = '''<!DOCTYPE html>
 <html>
     <head>
         <style>
-            form {
+            form {{
                 background-color: #eee;
                 padding: 20px;
                 margin: 0 auto;
-                width: 540px;
+                width: 440px;
                 font: 16px sans-serif;
                 border-radius: 10px;
-            }
+            }}
             textarea {{
-                width: 300px;
+                margin: 10px 0;
+                width: 400px;
                 height: 150px;
                 padding: 12px 20px;
                 box-sizing: border-box;
@@ -28,21 +29,16 @@ form = '''<!DOCTYPE html>
                 font-size: 16px;
                 resize: none;
             }}
-            div.div1 {
-            
-                width:540px;
-                margin: 16px 16px;
-            }
         </style>
     </head>
     <body>
       <!-- create your form here -->
       <form action=/ method="post">
-        <div class ="div1">
+        <div>
         <label for="rot">Rotate by:</label>
         <input id="rot" type="text" name="rot" value="0" />
         </div>
-        <textarea name="text" {0} rows="3" cols="35"></textarea>
+        <textarea name="text" placeholder="{0}" rows="3" cols="35"></textarea>
         <input type="submit" value="Submit" />
       </form>
     </body>
@@ -52,15 +48,15 @@ form = '''<!DOCTYPE html>
 
 @app.route('/')
 def index():
-    return form
+    return form.format("enter text here")
 
 
 @app.route('/', methods=['POST'])
 def encrypt():
     rec_rot = int(request.form['rot'])
     rec_text = request.form['text']
-    rotated = rotate_string(rec_text,rec_rot)
-    return '<h1> ' + rotated + '</h1>'
+    rotated = rotate_string(rec_text, rec_rot)
+    return form.format(rotated)
 
 
 if __name__ == '__main__':
